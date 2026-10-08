@@ -4,7 +4,7 @@
 (function () {
   "use strict";
 
-  var REPO = "WebNewWave/cvet_market";
+  var REPO = "WebNewWave/cvet_market_fiori";
   var API = "https://api.github.com/repos/" + REPO + "/contents/";
 
   var content = window.CVET_CONTENT || {};
