@@ -1,7 +1,7 @@
 :root{
   --bg:#FFF8F3; --paper:#FFFFFF; --card:#FFF1E8; --line:#F0E0D0;
   --ink:#4A3A36; --muted:#9A847B; --coral:#E8927C; --coral-2:#F4A893;
-  --rose:#F6E7DD; --sage:#9CAF88; --gold:#D9B27A;
+  --rose:#F6E7DD; --sage:#9CAF88; --gold:#E6B23E;
   --sans:'Manrope',system-ui,sans-serif; --display:'Nunito',system-ui,sans-serif; --hand:'Caveat','Comic Sans MS',cursive;
 }
 *{box-sizing:border-box;margin:0;padding:0}

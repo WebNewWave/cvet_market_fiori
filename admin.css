@@ -1,0 +1,210 @@
+/* Админка сайта «Фиори».
+   Стили для форм редактирования, вкладок и панели сохранения. */
+
+:root {
+  --bg: #faf7f2;
+  --panel: #ffffff;
+  --ink: #2c2a26;
+  --muted: #8a8378;
+  --line: #e7e1d6;
+  --accent: #6f9a5e;     /* мягкий садовый зелёный */
+  --accent-2: #d98c8c;   /* пыльно-розовый */
+  --danger: #c0564f;
+  --radius: 12px;
+  --shadow: 0 1px 3px rgba(0,0,0,.06), 0 8px 24px rgba(0,0,0,.04);
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font: 15px/1.5 -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  padding: 0 0 60px;
+}
+
+.adm-top {
+  padding: 28px 28px 8px;
+}
+.adm-top h1 {
+  margin: 0 0 4px;
+  font-size: 22px;
+  letter-spacing: .2px;
+}
+.adm-sub {
+  margin: 0;
+  color: var(--muted);
+  max-width: 760px;
+}
+
+/* ---------- верхняя панель: токен + сохранить ---------- */
+.adm-bar {
+  position: sticky;
+  top: 0;
+  z-index: 5;
+  display: flex;
+  gap: 16px;
+  align-items: flex-end;
+  flex-wrap: wrap;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 14px 18px;
+  margin: 16px 28px 0;
+}
+.adm-token { flex: 1 1 320px; display: flex; flex-direction: column; gap: 6px; }
+.adm-token label { font-size: 13px; color: var(--muted); }
+.adm-token input {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #fff;
+  font: 14px/1.4 ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+}
+.adm-save {
+  padding: 11px 20px;
+  border: none;
+  border-radius: 8px;
+  background: var(--accent);
+  color: #fff;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: filter .15s ease;
+  white-space: nowrap;
+}
+.adm-save:hover { filter: brightness(1.05); }
+.adm-save:active { filter: brightness(.95); }
+
+/* ---------- статус ---------- */
+#status {
+  margin: 14px 28px 0;
+  padding: 11px 16px;
+  border-radius: 8px;
+  font-size: 14px;
+  border: 1px solid transparent;
+}
+#status.ok {
+  background: #eef6ea;
+  border-color: #cfe6c3;
+  color: #3f6b32;
+}
+#status.err {
+  background: #fbeceb;
+  border-color: #f0cfcc;
+  color: var(--danger);
+}
+
+/* ---------- вкладки ---------- */
+.tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 22px 28px 0;
+}
+.tabs button {
+  appearance: none;
+  border: 1px solid var(--line);
+  background: #fff;
+  color: var(--ink);
+  padding: 9px 16px;
+  border-radius: 999px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all .15s ease;
+}
+.tabs button:hover { border-color: var(--accent); }
+.tabs button.active {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+  font-weight: 600;
+}
+
+/* ---------- контент вкладок ---------- */
+.adm-main { margin: 18px 28px 0; }
+.tab { display: block; }
+
+.tab > div { display: grid; gap: 16px; }
+
+/* ---------- группы / поля ---------- */
+fieldset.grp {
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--panel);
+  box-shadow: var(--shadow);
+  padding: 16px 18px 18px;
+  margin: 0;
+}
+fieldset.grp > legend {
+  font-weight: 700;
+  font-size: 14px;
+  padding: 0 8px;
+  color: var(--accent);
+  letter-spacing: .2px;
+}
+fieldset.grp fieldset.grp {
+  box-shadow: none;
+  background: #fcfaf6;
+}
+
+.fld { display: flex; flex-direction: column; gap: 5px; margin: 10px 0; }
+.fld > label { font-size: 12.5px; color: var(--muted); font-weight: 600; }
+
+.inp {
+  width: 100%;
+  padding: 9px 11px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #fff;
+  color: var(--ink);
+  font: 14px/1.45 inherit;
+}
+.inp:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px rgba(111,154,94,.15); }
+textarea.inp { min-height: 84px; resize: vertical; }
+input.inp.num { max-width: 180px; }
+
+/* ---------- массивы / карточки ---------- */
+.arr { display: grid; gap: 12px; margin: 8px 0 4px; }
+.card {
+  border: 1px solid var(--line);
+  border-left: 4px solid var(--accent-2);
+  border-radius: 10px;
+  background: #fff;
+  padding: 14px 14px 12px;
+}
+.card.prod { border-left-color: var(--accent); }
+.card .del {
+  margin-top: 10px;
+  padding: 7px 14px;
+  border: 1px solid #f0cfcc;
+  background: #fbeceb;
+  color: var(--danger);
+  border-radius: 7px;
+  font-size: 13px;
+  cursor: pointer;
+}
+.card .del:hover { background: #f7dedb; }
+.add {
+  margin-top: 6px;
+  padding: 9px 16px;
+  border: 1px dashed var(--accent);
+  background: #eef6ea;
+  color: #3f6b32;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  justify-self: start;
+}
+.add:hover { background: #e4f0dc; }
+
+.adm-foot {
+  margin: 32px 28px 0;
+  color: var(--muted);
+  font-size: 12.5px;
+  max-width: 760px;
+}

@@ -1,4 +1,4 @@
-/* Концепт «Душа» — липкий хедер. */
+/* Концепт «Праздник» — липкий хедер. */
 (function () {
   "use strict";
   var header = document.getElementById("header");

@@ -4,21 +4,21 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="icon" href="favicon.svg" type="image/svg+xml" />
-<title>Ваш заказ — Цветы с душой</title>
-<meta name="description" content="Ваш букет собран: состав, количество и сумма видны сразу. Откройте и отправьте заказ в Telegram в один клик." />
-<!-- Open Graph / rich link preview для Telegram и мессенджеров -->
+<title>Ваш заказ — Фиори</title>
+<meta name="description" content="Ваш букет собран: состав, количество и сумма видны сразу. Откройте и отправьте заказ в ВК в один клик." />
+<!-- Open Graph / rich link preview для ВК и мессенджеров -->
 <meta property="og:type" content="website" />
-<meta property="og:site_name" content="Цветы с душой" />
-<meta property="og:title" content="Цветы с душой — заказ букета" />
-<meta property="og:description" content="Ваш букет собран: состав, количество и сумма видны сразу. Откройте и отправьте заказ в Telegram в один клик." />
+<meta property="og:site_name" content="Фиори" />
+<meta property="og:title" content="Фиори — заказ букета" />
+<meta property="og:description" content="Ваш букет собран: состав, количество и сумма видны сразу. Откройте и отправьте заказ в ВК в один клик." />
 <meta property="og:image" content="https://webnewwave.github.io/cvet_market/assets/og-image.jpg" />
 <meta property="og:image:width" content="1200" />
 <meta property="og:image:height" content="630" />
 <meta property="og:url" content="https://webnewwave.github.io/cvet_market/order.html" />
 <!-- Twitter Card (дублируем для надёжности превью) -->
 <meta name="twitter:card" content="summary_large_image" />
-<meta name="twitter:title" content="Цветы с душой — заказ букета" />
-<meta name="twitter:description" content="Ваш букет собран: состав, количество и сумма видны сразу. Откройте и отправьте заказ в Telegram в один клик." />
+<meta name="twitter:title" content="Фиори — заказ букета" />
+<meta name="twitter:description" content="Ваш букет собран: состав, количество и сумма видны сразу. Откройте и отправьте заказ в ВК в один клик." />
 <meta name="twitter:image" content="https://webnewwave.github.io/cvet_market/assets/og-image.jpg" />
 <style>
   :root { --ink:#2b2622; --muted:#8a8077; --line:#ece4db; --accent:#b5694f; }
@@ -54,13 +54,13 @@
 <body>
   <div class="wrap">
     <header>
-      <div class="brand" id="brandName">Цветы с душой</div>
+      <div class="brand" id="brandName">Фиори</div>
       <div class="tag" id="brandTag">Ваш заказ</div>
     </header>
 
     <div class="note" id="note">
       Это ссылка на заказ. Откройте её на любом устройстве и браузере — букет виден полностью.
-      Ссылку можно переслать продавцу или нажать кнопку ниже, чтобы отправить заказ в Telegram.
+      Ссылку можно переслать продавцу или нажать кнопку ниже, чтобы отправить заказ в ВК.
     </div>
 
     <div class="empty" id="empty" style="display:none">Не удалось распознать заказ. Проверьте ссылку.</div>
@@ -72,11 +72,11 @@
     </div>
 
     <div class="actions" id="actions" style="display:none">
-      <button class="btn btn--primary" id="toTg">Отправить заказ в Telegram</button>
+      <button class="btn btn--primary" id="toTg">Отправить заказ в ВК</button>
       <button class="btn btn--ghost" id="copy">Копировать ссылку</button>
     </div>
 
-    <footer>Цветы с душой · заказ через Telegram @cvet_market</footer>
+    <footer>Фиори · заказ в ВК</footer>
   </div>
 
   <script src="assets/data.js"></script>
@@ -84,7 +84,7 @@
   (function () {
     var C = window.CVET;
     if (C && C.BRAND) {
-      document.getElementById("brandName").textContent = C.BRAND.name || "Цветы с душой";
+      document.getElementById("brandName").textContent = C.BRAND.name || "Фиори";
       document.getElementById("brandTag").textContent = C.BRAND.tagline || "Ваш заказ";
     }
     var params = new URLSearchParams(location.search);
@@ -137,7 +137,9 @@
     });
     document.getElementById("toTg").addEventListener("click", function () {
       var txt = "Здравствуйте! Хочу оформить заказ 🌸\nФото заказа: " + orderUrl;
-      window.open("https://t.me/" + C.BRAND.bot + "?text=" + encodeURIComponent(txt), "_blank");
+      var vk = (C.BRAND && C.BRAND.vk) || "https://vk.ru/fiori.kirishi";
+      window.open(vk, "_blank");
+      if (navigator.clipboard) navigator.clipboard.writeText(txt).catch(function () {});
     });
   })();
   </script>

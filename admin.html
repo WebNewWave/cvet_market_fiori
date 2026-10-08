@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Админка — Фиори</title>
+  <link rel="stylesheet" href="admin.css">
+</head>
+<body>
+  <header class="adm-top">
+    <h1>Админка сайта «Фиори»</h1>
+    <p class="adm-sub">Редактирование текстов, контактов, карточек «Почему мы» и каталога.
+       Сохранение происходит через GitHub API прямо из браузера.</p>
+  </header>
+
+  <div class="adm-bar">
+    <div class="adm-token">
+      <label for="token">GitHub-токен (с правами на запись в репозиторий):</label>
+      <input id="token" type="password" placeholder="ghp_..." autocomplete="off" spellcheck="false">
+    </div>
+    <button id="save" class="adm-save">💾 Сохранить в репозиторий</button>
+  </div>
+
+  <div id="status" class="ok"></div>
+
+  <nav class="tabs">
+    <button data-tab="hub">Хаб</button>
+    <button data-tab="concept1">Концепт 1 · Нежность</button>
+    <button data-tab="concept2">Концепт 2 · Ателье</button>
+    <button data-tab="concept3">Концепт 3 · Праздник</button>
+    <button data-tab="products">Каталог</button>
+  </nav>
+
+  <main class="adm-main">
+    <section class="tab" data-tab="hub"><div id="ed-hub"></div></section>
+    <section class="tab" data-tab="concept1"><div id="ed-concept1"></div></section>
+    <section class="tab" data-tab="concept2"><div id="ed-concept2"></div></section>
+    <section class="tab" data-tab="concept3"><div id="ed-concept3"></div></section>
+    <section class="tab" data-tab="products"><div id="ed-products"></div></section>
+  </main>
+
+  <footer class="adm-foot">
+    Токен хранится только в localStorage вашего браузера и не уходит на сервер, кроме запроса к GitHub API при сохранении.
+  </footer>
+
+  <script src="assets/content.js"></script>
+  <script src="assets/data.js"></script>
+  <script src="admin.js"></script>
+</body>
+</html>

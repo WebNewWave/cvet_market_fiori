@@ -1,4 +1,4 @@
-/* Концепт «Движение» — липкий хедер. */
+/* Концепт «Ателье» — липкий хедер. */
 (function () {
   "use strict";
   var header = document.getElementById("header");

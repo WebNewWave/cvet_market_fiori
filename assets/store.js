@@ -1,6 +1,6 @@
-/* Общий движок магазина «Цветы с душой»: каталог, корзина (localStorage),
+/* Общий движок магазина «Фиори»: каталог, корзина (localStorage),
    изменение числа цветов в букете и количества, формирование заказа и
-   отправка в Telegram предзаполненным сообщением (без БД и без личных данных). */
+   отправка в ВК предзаполненным сообщением (без БД и без личных данных). */
 (function () {
   "use strict";
   var C = window.CVET;
@@ -57,7 +57,7 @@
   function total() { var t = 0, a = items(); for (var i = 0; i < a.length; i++) t += a[i].line; return t; }
   function count() { var n = 0, a = items(); for (var i = 0; i < a.length; i++) n += a[i].qty; return n; }
 
-  /* ---------- текст заказа + Telegram ---------- */
+  /* ---------- текст заказа + отправка в ВК ---------- */
   function orderText() {
     var a = items();
     if (!a.length) return "";
@@ -94,10 +94,11 @@
   function checkout() {
     var txt = orderText();
     if (!txt) { toast("Корзина пуста"); return; }
-    var url = "https://t.me/" + C.BRAND.bot + "?text=" + encodeURIComponent(txt);
-    var w = window.open(url, "_blank");
-    if (!w) { copyText(txt); toast("Открыть Telegram не удалось — текст заказа скопирован 📋"); }
-    else toast("Открываю Telegram с вашим заказом ✨");
+    var vk = (C.BRAND && C.BRAND.vk) || "https://vk.ru/fiori.kirishi";
+    copyText(txt);
+    var w = window.open(vk, "_blank");
+    if (!w) { toast("Открыть ВК не удалось — текст заказа скопирован 📋"); }
+    else { toast("Открываю ВК Фиори — вставьте текст заказа в сообщение ✨"); }
   }
   function copyText(t) {
     if (navigator.clipboard) navigator.clipboard.writeText(t).catch(function () {});
