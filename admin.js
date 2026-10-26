@@ -1,4 +1,4 @@
-/* Админка сайта «Фиори».
+/* Админка сайта «FlowerPower».
    Редактирует window.CVET_CONTENT (assets/content.js) и window.CVET (assets/data.js),
    сохраняет через GitHub API (PUT contents). Токен хранится только в localStorage. */
 (function () {
@@ -25,7 +25,8 @@
     items: "Пункты списка", icon: "Иконка", num: "Номер", cls: "Класс кнопки",
     href: "Ссылка", link: "Тип ссылки", img: "URL картинки", alt: "Alt (описание)",
     text: "Текст", name: "Название", cat: "Категория", price: "Цена (₽)",
-    pp: "Цена за 1 цветок (₽)", photo: "Путь к фото", id: "ID",
+    pp: "Цена за 1 цветок (₽)", pack: "Упаковка (₽)", def: "Число цветов по умолчанию",
+    desc: "Описание букета", photo: "Путь к фото", id: "ID",
     note: "Примечание", kind: "Тип раскладки"
   };
 
@@ -55,7 +56,7 @@
       wrap.appendChild(sel);
     } else if (key === "link") {
       var s2 = el("select", "inp");
-      [["", "— обычная —"], ["telegram", "Telegram (бот)"], ["vk", "ВК (ссылка)"], ["instagram", "Instagram (ссылка)"], ["whatsapp", "WhatsApp (ссылка)"]].forEach(function (p) {
+      [["", "— обычная —"], ["telegram", "Telegram (бот)"], ["instagram", "Instagram (ссылка)"], ["whatsapp", "WhatsApp (ссылка)"]].forEach(function (p) {
         var o = el("option", null, p[1]); o.value = p[0];
         if (p[0] === val) o.selected = true;
         s2.appendChild(o);
@@ -133,10 +134,7 @@
 
   /* ---------- построение всех редакторов ---------- */
   function buildEditors() {
-    buildPage("hub");
-    buildPage("concept1");
-    buildPage("concept2");
-    buildPage("concept3");
+    buildPage("shop");
     buildProducts();
   }
   function buildPage(pageKey) {
@@ -157,7 +155,7 @@
     var cats = data.CATEGORIES || [];
     data.PRODUCTS.forEach(function (p, i) {
       var card = el("div", "card prod");
-      [["name", "inp"], ["price", "inp num"], ["pp", "inp num"], ["cat", "inp"], ["photo", "inp"]].forEach(function (pair) {
+      [["name", "inp"], ["price", "inp num"], ["pp", "inp num"], ["pack", "inp num"], ["def", "inp num"], ["desc", "inp"], ["cat", "inp"], ["photo", "inp"]].forEach(function (pair) {
         var k = pair[0];
         var w = el("div", "fld");
         w.appendChild(el("label", null, label(k)));
@@ -181,7 +179,7 @@
     });
     var add = el("button", "add", "＋ Добавить товар");
     add.addEventListener("click", function () {
-      data.PRODUCTS.push({ id: "p" + Date.now(), name: "Новый товар", cat: cats[0] || "", price: 0, def: 1, pp: 0, img: "", photo: "" });
+      data.PRODUCTS.push({ id: "p" + Date.now(), name: "Новый товар", cat: cats[0] || "", price: 0, def: 1, pp: 0, pack: 0, img: "", photo: "", desc: "" });
       buildProducts();
     });
     fs.appendChild(add);
@@ -198,12 +196,14 @@
     s.className = ok ? "ok" : "err";
   }
   function buildContentText() {
-    return "/* Редактируемый контент сайта «Фиори». Генерируется админкой. */\n\n" +
+    return "/* Редактируемый контент сайта «FlowerPower». Генерируется админкой. */\n\n" +
       "window.CVET_CONTENT = " + JSON.stringify(content, null, 2) + ";\n\n" +
       "window.CVET_ICONS = " + JSON.stringify(icons, null, 2) + ";\n";
   }
   function buildDataText() {
-    return "/* Каталог «Фиори» — РЕАЛЬНЫЕ данные с сайта заказчика.\n" +
+    return "/* Каталог «FlowerPower» — Казань.\n" +
+      "   Данные собраны из публикации заказчика и пересчитаны по формуле:\n" +
+      "   Цена = упаковка (pack) + цена за стебель (pp) × число стеблей.\n" +
       "   Файл консолидирован для редактирования через админку (admin.html). */\n\n" +
       "window.CVET = " + JSON.stringify(data, null, 2) + ";\n";
   }

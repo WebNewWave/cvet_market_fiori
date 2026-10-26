@@ -3,12 +3,12 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Админка — Фиори</title>
+  <title>Админка — FlowerPower</title>
   <link rel="stylesheet" href="admin.css">
 </head>
 <body>
   <header class="adm-top">
-    <h1>Админка сайта «Фиори»</h1>
+    <h1>Админка сайта «FlowerPower»</h1>
     <p class="adm-sub">Редактирование текстов, контактов, карточек «Почему мы» и каталога.
        Сохранение происходит через GitHub API прямо из браузера.</p>
   </header>
@@ -24,18 +24,12 @@
   <div id="status" class="ok"></div>
 
   <nav class="tabs">
-    <button data-tab="hub">Хаб</button>
-    <button data-tab="concept1">Концепт 1 · Нежность</button>
-    <button data-tab="concept2">Концепт 2 · Ателье</button>
-    <button data-tab="concept3">Концепт 3 · Праздник</button>
+    <button data-tab="shop">Магазин</button>
     <button data-tab="products">Каталог</button>
   </nav>
 
   <main class="adm-main">
-    <section class="tab" data-tab="hub"><div id="ed-hub"></div></section>
-    <section class="tab" data-tab="concept1"><div id="ed-concept1"></div></section>
-    <section class="tab" data-tab="concept2"><div id="ed-concept2"></div></section>
-    <section class="tab" data-tab="concept3"><div id="ed-concept3"></div></section>
+    <section class="tab" data-tab="shop"><div id="ed-shop"></div></section>
     <section class="tab" data-tab="products"><div id="ed-products"></div></section>
   </main>
 

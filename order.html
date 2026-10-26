@@ -1,66 +1,68 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="icon" href="favicon.svg" type="image/svg+xml" />
-<title>Ваш заказ — Фиори</title>
-<meta name="description" content="Ваш букет собран: состав, количество и сумма видны сразу. Откройте и отправьте заказ в ВК в один клик." />
-<!-- Open Graph / rich link preview для ВК и мессенджеров -->
-<meta property="og:type" content="website" />
-<meta property="og:site_name" content="Фиори" />
-<meta property="og:title" content="Фиори — заказ букета" />
-<meta property="og:description" content="Ваш букет собран: состав, количество и сумма видны сразу. Откройте и отправьте заказ в ВК в один клик." />
-<meta property="og:image" content="https://webnewwave.github.io/cvet_market/assets/og-image.jpg" />
-<meta property="og:image:width" content="1200" />
-<meta property="og:image:height" content="630" />
-<meta property="og:url" content="https://webnewwave.github.io/cvet_market/order.html" />
-<!-- Twitter Card (дублируем для надёжности превью) -->
-<meta name="twitter:card" content="summary_large_image" />
-<meta name="twitter:title" content="Фиори — заказ букета" />
-<meta name="twitter:description" content="Ваш букет собран: состав, количество и сумма видны сразу. Откройте и отправьте заказ в ВК в один клик." />
-<meta name="twitter:image" content="https://webnewwave.github.io/cvet_market/assets/og-image.jpg" />
-<style>
-  :root { --ink:#2b2622; --muted:#8a8077; --line:#ece4db; --accent:#b5694f; }
-  * { box-sizing: border-box; }
-  body { margin:0; font-family: -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-         color:var(--ink); background:#fbf8f4; line-height:1.5; }
-  .wrap { max-width: 880px; margin:0 auto; padding: 40px 20px 64px; }
-  header { text-align:center; margin-bottom: 28px; }
-  header .brand { font-family: Georgia, "Times New Roman", serif; font-size: 30px; letter-spacing:.3px; }
-  header .tag { color:var(--muted); margin-top:6px; font-size:15px; }
-  .note { background:#fff; border:1px solid var(--line); border-radius:14px; padding:14px 18px;
-          color:var(--muted); font-size:14px; margin-bottom:24px; }
-  .empty { text-align:center; color:var(--muted); padding:60px 0; font-size:16px; }
-  .grid { display:grid; grid-template-columns: repeat(auto-fill, minmax(180px,1fr)); gap:18px; }
-  .item { background:#fff; border:1px solid var(--line); border-radius:16px; overflow:hidden;
-          display:flex; flex-direction:column; }
-  .item img { width:100%; height:200px; object-fit:cover; display:block; background:#f0eae3; }
-  .item .body { padding:14px 16px 16px; }
-  .item .name { font-weight:600; font-size:16px; }
-  .item .meta { color:var(--muted); font-size:14px; margin-top:4px; }
-  .item .price { color:var(--accent); font-weight:700; margin-top:8px; }
-  .total { display:flex; justify-content:space-between; align-items:center; margin-top:28px;
-           padding-top:18px; border-top:2px solid var(--line); font-size:20px; font-weight:700; }
-  .actions { display:flex; gap:12px; flex-wrap:wrap; margin-top:24px; justify-content:center; }
-  .btn { border:none; border-radius:999px; padding:13px 22px; font-size:15px; font-weight:600;
-         cursor:pointer; text-decoration:none; display:inline-block; }
-  .btn--primary { background:var(--accent); color:#fff; }
-  .btn--ghost { background:#fff; color:var(--ink); border:1px solid var(--line); }
-  footer { text-align:center; color:var(--muted); font-size:13px; margin-top:40px; }
-  .ok { color:#2e7d4f; font-weight:600; }
-</style>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+  <title>Ваш заказ — FlowerPower</title>
+  <meta name="description" content="Ваш букет собран: состав, количество и сумма видны сразу. Откройте и отправьте заказ в Telegram или WhatsApp в один клик." />
+  <!-- Open Graph / rich link preview для мессенджеров -->
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="FlowerPower" />
+  <meta property="og:title" content="FlowerPower — заказ букета" />
+  <meta property="og:description" content="Ваш букет собран: состав, количество и сумма видны сразу. Отправьте заказ в Telegram или WhatsApp в один клик." />
+  <meta property="og:image" content="https://webnewwave.github.io/cvet_market_fiori/assets/og-image.jpg" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:url" content="https://webnewwave.github.io/cvet_market_fiori/order.html" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="FlowerPower — заказ букета" />
+  <meta name="twitter:description" content="Ваш букет собран: состав, количество и сумма видны сразу. Отправьте заказ в Telegram или WhatsApp." />
+  <meta name="twitter:image" content="https://webnewwave.github.io/cvet_market_fiori/assets/og-image.jpg" />
+  <style>
+    :root { --ink:#2A2024; --muted:#8A6E72; --line:#EBD3D8; --accent:#D6465F; }
+    * { box-sizing: border-box; }
+    body { margin:0; font-family: -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+           color:var(--ink); background:#FBF3F4; line-height:1.5; }
+    .wrap { max-width: 880px; margin:0 auto; padding: 40px 20px 64px; }
+    header { text-align:center; margin-bottom: 28px; }
+    header .brand { font-family: Georgia, "Times New Roman", serif; font-size: 30px; letter-spacing:.3px; }
+    header .tag { color:var(--muted); margin-top:6px; font-size:15px; }
+    .note { background:#fff; border:1px solid var(--line); border-radius:14px; padding:14px 18px;
+            color:var(--muted); font-size:14px; margin-bottom:24px; }
+    .empty { text-align:center; color:var(--muted); padding:60px 0; font-size:16px; }
+    .grid { display:grid; grid-template-columns: repeat(auto-fill, minmax(180px,1fr)); gap:18px; }
+    .item { background:#fff; border:1px solid var(--line); border-radius:16px; overflow:hidden;
+            display:flex; flex-direction:column; }
+    .item img { width:100%; height:200px; object-fit:cover; display:block; background:#F6E7EA; }
+    .item .body { padding:14px 16px 16px; }
+    .item .name { font-weight:600; font-size:16px; }
+    .item .meta { color:var(--muted); font-size:14px; margin-top:4px; }
+    .item .price { color:var(--accent); font-weight:700; margin-top:8px; }
+    .total { display:flex; justify-content:space-between; align-items:center; margin-top:28px;
+             padding-top:18px; border-top:2px solid var(--line); font-size:20px; font-weight:700; }
+    .actions { display:flex; gap:12px; flex-wrap:wrap; margin-top:24px; justify-content:center; }
+    .btn { border:none; border-radius:999px; padding:13px 22px; font-size:15px; font-weight:600;
+           cursor:pointer; text-decoration:none; display:inline-block; }
+    .btn--wa { background:var(--accent); color:#fff; }
+    .btn--wa:hover { background:#bf3650; }
+    .btn--tg { background:#2A8BD8; color:#fff; }
+    .btn--tg:hover { background:#1f6fae; }
+    .btn--ghost { background:#fff; color:var(--ink); border:1px solid var(--line); }
+    footer { text-align:center; color:var(--muted); font-size:13px; margin-top:40px; }
+    .ok { color:#2e7d4f; font-weight:600; }
+  </style>
 </head>
 <body>
   <div class="wrap">
     <header>
-      <div class="brand" id="brandName">Фиори</div>
+      <div class="brand" id="brandName">FlowerPower</div>
       <div class="tag" id="brandTag">Ваш заказ</div>
     </header>
 
     <div class="note" id="note">
       Это ссылка на заказ. Откройте её на любом устройстве и браузере — букет виден полностью.
-      Ссылку можно переслать продавцу или нажать кнопку ниже, чтобы отправить заказ в ВК.
+      Ссылку можно переслать продавцу или нажать кнопку ниже, чтобы отправить заказ в Telegram или WhatsApp.
     </div>
 
     <div class="empty" id="empty" style="display:none">Не удалось распознать заказ. Проверьте ссылку.</div>
@@ -72,11 +74,12 @@
     </div>
 
     <div class="actions" id="actions" style="display:none">
-      <button class="btn btn--primary" id="toTg">Отправить заказ в ВК</button>
+      <button class="btn btn--wa" id="toWa">Заказать в WhatsApp</button>
+      <button class="btn btn--tg" id="toTg">Заказать в Telegram</button>
       <button class="btn btn--ghost" id="copy">Копировать ссылку</button>
     </div>
 
-    <footer>Фиори · заказ в ВК</footer>
+    <footer>FlowerPower · Казань · заказ в Telegram / WhatsApp</footer>
   </div>
 
   <script src="assets/data.js"></script>
@@ -84,7 +87,7 @@
   (function () {
     var C = window.CVET;
     if (C && C.BRAND) {
-      document.getElementById("brandName").textContent = C.BRAND.name || "Фиори";
+      document.getElementById("brandName").textContent = C.BRAND.name || "FlowerPower";
       document.getElementById("brandTag").textContent = C.BRAND.tagline || "Ваш заказ";
     }
     var params = new URLSearchParams(location.search);
@@ -103,15 +106,19 @@
     var sum = 0, html = "", shown = 0;
     for (var i = 0; i < seg.length; i++) {
       var parts = seg[i].split("-");
-      var id = parts[0], stems = parseInt(parts[1], 10) || 0, qty = parseInt(parts[2], 10) || 1;
+      // формат id-стебли-количество; id может содержать дефисы (напр. hot-spot-9-1),
+      // поэтому qty и stems берём с конца, а id — всё, что осталось
+      var qty = parseInt(parts.pop(), 10) || 1;
+      var stems = parseInt(parts.pop(), 10) || 0;
+      var id = parts.join("-");
       var p = null;
       for (var j = 0; j < C.PRODUCTS.length; j++) { if (C.PRODUCTS[j].id === id) { p = C.PRODUCTS[j]; break; } }
       if (!p) continue;
-      var line = (p.pp * stems) * qty;
+      var line = (p.pack + p.pp * stems) * qty;
       sum += line; shown++;
       html += '' +
         '<div class="item">' +
-          '<img src="' + C.BRAND.base + p.photo + '" alt="' + (p.name || "") + '" loading="lazy">' +
+          '<img src="' + p.photo + '" alt="' + (p.name || "") + '" loading="lazy">' +
           '<div class="body">' +
             '<div class="name">' + (p.name || "") + '</div>' +
             '<div class="meta">' + stems + ' цветов × ' + qty + ' шт.</div>' +
@@ -135,10 +142,16 @@
         }).catch(function () {});
       }
     });
+    document.getElementById("toWa").addEventListener("click", function () {
+      var txt = "Здравствуйте! Хочу оформить заказ 🌸\nФото заказа: " + orderUrl;
+      var ph = (C.BRAND && C.BRAND.phone) ? C.BRAND.phone.replace(/\D/g, "") : "79276797100";
+      window.open("https://wa.me/" + ph + "?text=" + encodeURIComponent(txt), "_blank");
+      if (navigator.clipboard) navigator.clipboard.writeText(txt).catch(function () {});
+    });
     document.getElementById("toTg").addEventListener("click", function () {
       var txt = "Здравствуйте! Хочу оформить заказ 🌸\nФото заказа: " + orderUrl;
-      var vk = (C.BRAND && C.BRAND.vk) || "https://vk.ru/fiori.kirishi";
-      window.open(vk, "_blank");
+      var bot = (C.BRAND && C.BRAND.bot) || "flowerpower_kznn";
+      window.open("https://t.me/" + bot, "_blank");
       if (navigator.clipboard) navigator.clipboard.writeText(txt).catch(function () {});
     });
   })();

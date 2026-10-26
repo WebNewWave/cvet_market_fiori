@@ -1,15 +1,12 @@
-/* Общий движок магазина «Фиори»: каталог, корзина (localStorage),
+/* Общий движок магазина «FlowerPower»: каталог, корзина (localStorage),
    изменение числа цветов в букете и количества, формирование заказа и
-   отправка в ВК предзаполненным сообщением (без БД и без личных данных). */
+   отправка в Telegram / WhatsApp предзаполненным сообщением
+   (без БД и без передачи личных данных).
+   Цена букета:  Цена = упаковка (pack) + цена за стебель (pp) × число стеблей. */
 (function () {
   "use strict";
   var C = window.CVET;
   var KEY = "cvet_cart_v1";
-
-  /* Фоллбэк: если локальный WebP недоступен, показываем оригинал с сайта заказчика */
-  function fallbackImg(p) {
-    return p.img || "";
-  }
 
   function rub(n) { return (n || 0).toLocaleString("ru-RU") + " ₽"; }
   function byId(id) { for (var i = 0; i < C.PRODUCTS.length; i++) if (C.PRODUCTS[i].id === id) return C.PRODUCTS[i]; return null; }
@@ -49,7 +46,7 @@
     for (var k in cart) {
       if (!cart.hasOwnProperty(k)) continue;
       var p = byId(cart[k].id); if (!p) continue;
-      var line = p.pp * cart[k].stems * cart[k].qty;
+      var line = (p.pack + p.pp * cart[k].stems) * cart[k].qty;
       out.push({ key: k, p: p, stems: cart[k].stems, qty: cart[k].qty, line: line });
     }
     return out;
@@ -57,7 +54,7 @@
   function total() { var t = 0, a = items(); for (var i = 0; i < a.length; i++) t += a[i].line; return t; }
   function count() { var n = 0, a = items(); for (var i = 0; i < a.length; i++) n += a[i].qty; return n; }
 
-  /* ---------- текст заказа + отправка в ВК ---------- */
+  /* ---------- текст заказа + отправка в Telegram / WhatsApp ---------- */
   function orderText() {
     var a = items();
     if (!a.length) return "";
@@ -91,14 +88,23 @@
     lines.push("Чек-лист заказа: " + C.BRAND.base + "order.html?i=" + encodeURIComponent(sel.join(",")));
     return lines.join("\n");
   }
-  function checkout() {
+  function checkoutTg() {
     var txt = orderText();
     if (!txt) { toast("Корзина пуста"); return; }
-    var vk = (C.BRAND && C.BRAND.vk) || "https://vk.ru/fiori.kirishi";
+    var bot = (C.BRAND && C.BRAND.bot) || "flowerpower_kznn";
     copyText(txt);
-    var w = window.open(vk, "_blank");
-    if (!w) { toast("Открыть ВК не удалось — текст заказа скопирован 📋"); }
-    else { toast("Открываю ВК Фиори — вставьте текст заказа в сообщение ✨"); }
+    var w = window.open("https://t.me/" + bot, "_blank");
+    if (!w) { toast("Открыть Telegram не удалось — текст заказа скопирован 📋"); }
+    else { toast("Открываю Telegram FlowerPower — вставьте текст заказа в чат ✨"); }
+  }
+  function checkoutWa() {
+    var txt = orderText();
+    if (!txt) { toast("Корзина пуста"); return; }
+    var ph = (C.BRAND && C.BRAND.phone) ? C.BRAND.phone.replace(/\D/g, "") : "79276797100";
+    copyText(txt);
+    var w = window.open("https://wa.me/" + ph + "?text=" + encodeURIComponent(txt), "_blank");
+    if (!w) { toast("Открыть WhatsApp не удалось — текст заказа скопирован 📋"); }
+    else { toast("Открываю WhatsApp с готовым текстом заказа ✨"); }
   }
   function copyText(t) {
     if (navigator.clipboard) navigator.clipboard.writeText(t).catch(function () {});
@@ -113,18 +119,20 @@
     var html = "";
     for (var i = 0; i < list.length; i++) {
       var p = list[i];
-      var img = C.BRAND.base + p.photo, fb = fallbackImg(p);
+      var img = p.photo;
+      var unit = (p.pack ? (" · упаковка " + rub(p.pack)) : "");
       html += '' +
         '<article class="card" data-id="' + p.id + '">' +
           '<div class="card__media">' +
-            '<img class="card__img" src="' + img + '" alt="' + esc(p.name) + '" loading="lazy" ' +
-              'onerror="this.onerror=null;this.src=\'' + fb + '\'">' +
+            '<img class="card__img" src="' + img + '" alt="' + esc(p.name) + '" loading="lazy">' +
             '<span class="card__cat">' + esc(p.cat) + '</span>' +
           '</div>' +
           '<div class="card__body">' +
             '<h3 class="card__name">' + esc(p.name) + '</h3>' +
+            (p.desc ? '<p class="card__desc">' + esc(p.desc) + '</p>' : '') +
             '<div class="card__price"><b class="js-card-price">' + rub(p.price) + '</b>' +
               ' <span class="card__unit">за ' + p.def + ' цветов</span></div>' +
+            (p.pp ? '<div class="card__pp">' + rub(p.pp) + ' ₽/цветок' + unit + '</div>' : '') +
             '<div class="card__controls">' +
               '<div class="field">' +
                 '<span class="field__label">Цветов в букете</span>' +
@@ -172,10 +180,10 @@
     else { if (empty) empty.style.display = "none"; }
     var html = "";
     for (var i = 0; i < a.length; i++) {
-      var it = a[i], p = it.p, fb = fallbackImg(p);
+      var it = a[i], p = it.p;
       html += '' +
         '<div class="cart-item" data-key="' + it.key + '">' +
-          '<img class="cart-item__img" src="' + C.BRAND.base + p.photo + '" alt="" loading="lazy" onerror="this.onerror=null;this.src=\'' + fb + '\'">' +
+          '<img class="cart-item__img" src="' + p.photo + '" alt="" loading="lazy">' +
           '<div class="cart-item__main">' +
             '<h4 class="cart-item__name">' + esc(p.name) + '</h4>' +
             '<div class="cart-item__price js-item-price">' + rub(it.line) + '</div>' +
@@ -235,7 +243,8 @@
 
     if (act === "open-cart") { openCart(); return; }
     if (act === "close-cart") { closeCart(); return; }
-    if (act === "checkout") { checkout(); return; }
+    if (act === "checkout-wa") { checkoutWa(); return; }
+    if (act === "checkout-tg") { checkoutTg(); return; }
     if (act === "clear-cart") { clearCart(); return; }
 
     // карточка каталога
@@ -246,8 +255,8 @@
       var stemsEl = card.querySelector(".js-stems");
       var qtyEl = card.querySelector(".js-qty");
       var priceEl = card.querySelector(".js-card-price");
-      if (act === "stems-plus") { var s1 = (parseInt(stemsEl.value, 10) || p.def) + 1; stemsEl.value = s1; if (priceEl) priceEl.textContent = rub(p.pp * s1); }
-      else if (act === "stems-minus") { var s2 = Math.max(1, (parseInt(stemsEl.value, 10) || p.def) - 1); stemsEl.value = s2; if (priceEl) priceEl.textContent = rub(p.pp * s2); }
+      if (act === "stems-plus") { var s1 = (parseInt(stemsEl.value, 10) || p.def) + 1; stemsEl.value = s1; if (priceEl) priceEl.textContent = rub(p.pack + p.pp * s1); }
+      else if (act === "stems-minus") { var s2 = Math.max(1, (parseInt(stemsEl.value, 10) || p.def) - 1); stemsEl.value = s2; if (priceEl) priceEl.textContent = rub(p.pack + p.pp * s2); }
       else if (act === "qty-plus") { qtyEl.textContent = (parseInt(qtyEl.textContent, 10) || 1) + 1; }
       else if (act === "qty-minus") { qtyEl.textContent = Math.max(1, (parseInt(qtyEl.textContent, 10) || 1) - 1); }
       else if (act === "add") { addToCart(id, stemsEl.value, qtyEl.textContent); }

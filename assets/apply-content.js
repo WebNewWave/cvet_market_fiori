@@ -12,7 +12,7 @@
     if (p.indexOf("/concept-1/") >= 0) return "concept1";
     if (p.indexOf("/concept-2/") >= 0) return "concept2";
     if (p.indexOf("/concept-3/") >= 0) return "concept3";
-    return "hub";
+    return "shop";
   }
 
   function get(obj, path) {
@@ -51,8 +51,8 @@
   function applyContacts(data) {
     var c = data.contacts || {};
     var tg = c.telegram || "", ch = c.channel || "", ph = c.phone || "",
-        vk = c.vk || "", ig = c.instagram || "", wa = c.whatsapp || "";
-    var ICON = { vk: "f-vk", instagram: "f-ig", telegram: "f-tg", channel: "f-tg", whatsapp: "f-wa", phone: "f-ph" };
+        ig = c.instagram || "", wa = c.whatsapp || "";
+    var ICON = { instagram: "f-ig", telegram: "f-tg", channel: "f-tg", whatsapp: "f-wa", phone: "f-ph" };
     var links = document.querySelectorAll("[data-cvet-link]");
     for (var i = 0; i < links.length; i++) {
       var el = links[i];
@@ -61,7 +61,6 @@
       var href = "#", label = type;
       if (type === "telegram") { href = "https://t.me/" + tg; label = "Telegram"; }
       else if (type === "channel") { href = "https://t.me/" + ch; label = "Канал"; }
-      else if (type === "vk") { href = vk; label = "VK"; }
       else if (type === "instagram") { href = ig; label = "Instagram"; }
       else if (type === "whatsapp") { href = wa || ("https://wa.me/" + ph.replace(/\D/g, "")); label = "WhatsApp"; }
       else if (type === "phone") { href = "tel:" + ph; label = formatPhone(ph); }
@@ -75,7 +74,6 @@
       window.CVET.BRAND.bot = tg;
       window.CVET.BRAND.channel = ch;
       window.CVET.BRAND.phone = ph;
-      window.CVET.BRAND.vk = vk;
       window.CVET.BRAND.instagram = ig;
       window.CVET.BRAND.whatsapp = wa;
     }
@@ -145,7 +143,7 @@
       var a = acts[i];
       var href = a.link === "telegram"
         ? ("https://t.me/" + (c.telegram || ""))
-        : (a.link === "vk" ? (c.vk || "#")
+        : (a.link === "whatsapp" ? (c.whatsapp || "#")
           : (a.link === "instagram" ? (c.instagram || "#") : (a.href || "#")));
       html += '<a class="btn ' + (a.cls || "btn--solid") + '" href="' + esc(href) + '">' + esc(a.label) + "</a>";
     }
