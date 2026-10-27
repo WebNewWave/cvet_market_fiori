@@ -60,7 +60,7 @@ window.CVET = {
   },
   {
     "id": "red-naomi-5",
-    "name": "Ред Наоми, 5 шт",
+    "name": "Ред Наоми",
     "cat": "Розы",
     "price": 1500,
     "def": 5,
@@ -84,7 +84,7 @@ window.CVET = {
   },
   {
     "id": "red-naomi-35",
-    "name": "Ред Наоми, 35 роз",
+    "name": "Ред Наоми",
     "cat": "Розы",
     "price": 8900,
     "def": 35,
