@@ -21,6 +21,7 @@ window.CVET = {
 
   CATEGORIES: [
   "Розы",
+  "Кустовые розы",
   "Ажурные букеты"
 ],
 
@@ -48,14 +49,14 @@ window.CVET = {
   {
     "id": "sofi",
     "name": "Софи",
-    "cat": "Ажурные букеты",
+    "cat": "Кустовые розы",
     "price": 3800,
     "def": 5,
     "pp": 700,
     "pack": 300,
     "img": "",
     "photo": "assets/photos/flowerpower/sofi.webp",
-    "desc": "5 веток пионовидной розы"
+    "desc": "5 веток кустовой розы"
   },
   {
     "id": "red-naomi-5",
