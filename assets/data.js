@@ -80,7 +80,7 @@ window.CVET = {
     "pack": 1070,
     "img": "",
     "photo": "assets/photos/flowerpower/explorer.webp",
-    "desc": "9 алых роз + зелень, ажурная сборка"
+    "desc": "9 алых роз + ароматный эвкалипт"
   },
   {
     "id": "red-naomi-35",
