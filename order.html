@@ -28,8 +28,10 @@
     header { text-align:center; margin-bottom: 28px; }
     header .brand { font-family: Georgia, "Times New Roman", serif; font-size: 30px; letter-spacing:.3px; }
     header .tag { color:var(--muted); margin-top:6px; font-size:15px; }
-    .note { background:#fff; border:1px solid var(--line); border-radius:14px; padding:14px 18px;
+    .note { background:#fff; border:1px solid var(--line); border-radius:14px; padding:16px 18px;
             color:var(--muted); font-size:14px; margin-bottom:24px; }
+    .note__title { font-weight:700; color:var(--ink); font-size:15px; margin-bottom:4px; }
+    .note__text { font-size:14px; }
     .empty { text-align:center; color:var(--muted); padding:60px 0; font-size:16px; }
     .grid { display:grid; grid-template-columns: repeat(auto-fill, minmax(180px,1fr)); gap:18px; }
     .item { background:#fff; border:1px solid var(--line); border-radius:16px; overflow:hidden;
@@ -61,8 +63,8 @@
     </header>
 
     <div class="note" id="note">
-      Это ссылка на заказ. Откройте её на любом устройстве и браузере — букет виден полностью.
-      Ссылку можно переслать продавцу или нажать кнопку ниже, чтобы отправить заказ в Telegram или WhatsApp.
+      <div class="note__title">Это заявка на заказ</div>
+      <div class="note__text">Отправьте заявку в Telegram или WhatsApp — мы оформим заказ и подтвердим доставку по Казани.</div>
     </div>
 
     <div class="empty" id="empty" style="display:none">Не удалось распознать заказ. Проверьте ссылку.</div>
@@ -151,7 +153,8 @@
     document.getElementById("toTg").addEventListener("click", function () {
       var txt = "Здравствуйте! Хочу оформить заказ 🌸\nФото заказа: " + orderUrl;
       var bot = (C.BRAND && C.BRAND.bot) || "flowerpower_kznn";
-      window.open("https://t.me/" + bot, "_blank");
+      // предзаполняем текст в чат бота — ссылка-чек-лист развернётся в карточку-превью
+      window.open("https://t.me/" + bot + "?text=" + encodeURIComponent(txt), "_blank");
       if (navigator.clipboard) navigator.clipboard.writeText(txt).catch(function () {});
     });
   })();

@@ -22,7 +22,7 @@
     qty = Math.max(1, parseInt(qty, 10) || 1);
     var k = lineKey(id, stems);
     if (cart[k]) cart[k].qty += qty; else cart[k] = { id: id, stems: stems, qty: qty };
-    save(); renderCart(); updateBadge(); toast("Добавлено в корзину 🌷");
+    save(); syncCards(); renderCart(); updateBadge(); toast("Добавлено в корзину 🌷");
   }
   function setStems(k, stems) {
     var it = cart[k]; if (!it) return;
@@ -30,16 +30,16 @@
     var nk = lineKey(it.id, stems);
     if (nk === k) { it.stems = stems; }
     else { delete cart[k]; cart[nk] = { id: it.id, stems: stems, qty: it.qty }; }
-    save(); renderCart(); updateBadge();
+    save(); syncCards(); renderCart(); updateBadge();
   }
   function setQty(k, qty) {
     var it = cart[k]; if (!it) return;
     qty = parseInt(qty, 10);
     if (qty <= 0) { delete cart[k]; } else { it.qty = qty; }
-    save(); renderCart(); updateBadge();
+    save(); syncCards(); renderCart(); updateBadge();
   }
-  function removeItem(k) { delete cart[k]; save(); renderCart(); updateBadge(); }
-  function clearCart() { cart = {}; save(); renderCart(); updateBadge(); }
+  function removeItem(k) { delete cart[k]; save(); syncCards(); renderCart(); updateBadge(); }
+  function clearCart() { cart = {}; save(); syncCards(); renderCart(); updateBadge(); }
 
   function items() {
     var out = [];
@@ -92,10 +92,12 @@
     var txt = orderText();
     if (!txt) { toast("Корзина пуста"); return; }
     var bot = (C.BRAND && C.BRAND.bot) || "flowerpower_kznn";
-    copyText(txt);
-    var w = window.open("https://t.me/" + bot, "_blank");
-    if (!w) { toast("Открыть Telegram не удалось — текст заказа скопирован 📋"); }
-    else { toast("Открываю Telegram FlowerPower — вставьте текст заказа в чат ✨"); }
+    // текст заказа предзаполняется в чат бота вместе со ссылкой-чек-листом,
+    // которую мессенджер разворачивает в карточку-превью
+    var url = "https://t.me/" + bot + "?text=" + encodeURIComponent(txt);
+    var w = window.open(url, "_blank");
+    if (!w) { copyText(txt); toast("Открыть Telegram не удалось — текст заказа скопирован 📋"); }
+    else { toast("Открываю Telegram с готовым заказом ✨"); }
   }
   function checkoutWa() {
     var txt = orderText();
@@ -112,6 +114,14 @@
 
   /* ---------- рендер каталога ---------- */
   var currentFilter = "Все";
+  function plural(n, one, few, many) {
+    var n10 = n % 10, n100 = n % 100;
+    if (n10 === 1 && n100 !== 11) return one;
+    if (n10 >= 2 && n10 <= 4 && (n100 < 10 || n100 >= 20)) return few;
+    return many;
+  }
+  function stemsWord(n) { return plural(n, "цвет", "цвета", "цветов"); }
+
   function renderCatalog(grid) {
     if (!grid) return;
     var list = C.PRODUCTS.slice();
@@ -120,7 +130,6 @@
     for (var i = 0; i < list.length; i++) {
       var p = list[i];
       var img = p.photo;
-      var unit = (p.pack ? (" · упаковка " + rub(p.pack)) : "");
       html += '' +
         '<article class="card" data-id="' + p.id + '">' +
           '<div class="card__media">' +
@@ -130,32 +139,61 @@
           '<div class="card__body">' +
             '<h3 class="card__name">' + esc(p.name) + '</h3>' +
             (p.desc ? '<p class="card__desc">' + esc(p.desc) + '</p>' : '') +
-            '<div class="card__price"><b class="js-card-price">' + rub(p.price) + '</b>' +
-              ' <span class="card__unit">за ' + p.def + ' цветов</span></div>' +
-            (p.pp ? '<div class="card__pp">' + rub(p.pp) + ' ₽/цветок' + unit + '</div>' : '') +
-            '<div class="card__controls">' +
-              '<div class="field">' +
-                '<span class="field__label">Цветов в букете</span>' +
-                '<div class="stepper" data-stepper>' +
-                  '<button type="button" data-act="stems-minus" aria-label="Меньше цветов">−</button>' +
-                  '<input class="stepper__val js-stems" value="' + p.def + '" readonly aria-label="Число цветов">' +
-                  '<button type="button" data-act="stems-plus" aria-label="Больше цветов">+</button>' +
-                '</div>' +
+            /* цена слева, выбор числа цветов справа — одной строкой */
+            '<div class="card__row">' +
+              '<div class="card__price"><b class="js-card-price">' + rub(p.price) + '</b>' +
+                ' <span class="card__unit js-card-unit">за ' + p.def + ' ' + stemsWord(p.def) + '</span></div>' +
+              '<div class="stepper stepper--sm card__stems" data-stepper>' +
+                '<button type="button" data-act="stems-minus" aria-label="Меньше цветов">−</button>' +
+                '<input class="stepper__val js-stems" value="' + p.def + '" readonly aria-label="Число цветов">' +
+                '<button type="button" data-act="stems-plus" aria-label="Больше цветов">+</button>' +
               '</div>' +
-              '<div class="field">' +
-                '<span class="field__label">Количество</span>' +
-                '<div class="qty" data-qty>' +
-                  '<button type="button" data-act="qty-minus" aria-label="Меньше">−</button>' +
-                  '<span class="qty__val js-qty">1</span>' +
-                  '<button type="button" data-act="qty-plus" aria-label="Больше">+</button>' +
-                '</div>' +
-              '</div>' +
+            '</div>' +
+            /* «В корзину» превращается в компактный счётчик добавленного букета */
+            '<div class="card__buy">' +
               '<button type="button" class="card__add" data-act="add">В корзину</button>' +
+              '<div class="card__count" data-act="cart-count">' +
+                '<button type="button" class="card__count__btn" data-act="cart-minus" aria-label="Убрать из корзины">−</button>' +
+                '<span class="card__count__val js-cart-qty">0</span>' +
+                '<button type="button" class="card__count__btn" data-act="cart-plus" aria-label="Добавить ещё один">+</button>' +
+              '</div>' +
             '</div>' +
           '</div>' +
         '</article>';
     }
     grid.innerHTML = html;
+    syncCards();
+  }
+
+  /* ---------- состояние кнопки карточки ---------- */
+  function cardState(card) {
+    var id = card.getAttribute("data-id");
+    var stemsEl = card.querySelector(".js-stems");
+    var stems = parseInt(stemsEl && stemsEl.value, 10) || 0;
+    var key = lineKey(id, stems);
+    var line = cart[key];
+    return { id: id, stems: stems, key: key, qty: line ? line.qty : 0 };
+  }
+  function syncCards() {
+    var cards = document.querySelectorAll("#catalogGrid .card");
+    for (var i = 0; i < cards.length; i++) {
+      var card = cards[i];
+      var st = cardState(card);
+      var qtyEl = card.querySelector(".js-cart-qty");
+      if (st.qty > 0) {
+        card.classList.add("is-incart");
+        if (qtyEl) qtyEl.textContent = st.qty;
+      } else {
+        card.classList.remove("is-incart");
+        if (qtyEl) qtyEl.textContent = "0";
+      }
+    }
+  }
+  function updateCardPrice(card, p, stems) {
+    var priceEl = card.querySelector(".js-card-price");
+    var unitEl = card.querySelector(".js-card-unit");
+    if (priceEl) priceEl.textContent = rub(p.pack + p.pp * stems);
+    if (unitEl) unitEl.textContent = "за " + stems + " " + stemsWord(stems);
   }
 
   function renderFilters(el) {
@@ -212,8 +250,8 @@
     if (b) { var n = count(); b.textContent = n; b.style.display = n ? "flex" : "none"; }
   }
 
-  function openCart() { var c = document.getElementById("cart"); if (c) { c.classList.add("is-open"); c.setAttribute("aria-hidden", "false"); } }
-  function closeCart() { var c = document.getElementById("cart"); if (c) { c.classList.remove("is-open"); c.setAttribute("aria-hidden", "true"); } }
+  function openCart() { var c = document.getElementById("cart"); if (c) { c.classList.add("is-open"); c.setAttribute("aria-hidden", "false"); document.documentElement.classList.add("no-scroll"); document.body.classList.add("no-scroll"); } }
+  function closeCart() { var c = document.getElementById("cart"); if (c) { c.classList.remove("is-open"); c.setAttribute("aria-hidden", "true"); document.documentElement.classList.remove("no-scroll"); document.body.classList.remove("no-scroll"); } }
 
   /* ---------- тост ---------- */
   var toastTimer;
@@ -253,13 +291,28 @@
       var id = card.getAttribute("data-id");
       var p = byId(id);
       var stemsEl = card.querySelector(".js-stems");
-      var qtyEl = card.querySelector(".js-qty");
-      var priceEl = card.querySelector(".js-card-price");
-      if (act === "stems-plus") { var s1 = (parseInt(stemsEl.value, 10) || p.def) + 1; stemsEl.value = s1; if (priceEl) priceEl.textContent = rub(p.pack + p.pp * s1); }
-      else if (act === "stems-minus") { var s2 = Math.max(1, (parseInt(stemsEl.value, 10) || p.def) - 1); stemsEl.value = s2; if (priceEl) priceEl.textContent = rub(p.pack + p.pp * s2); }
-      else if (act === "qty-plus") { qtyEl.textContent = (parseInt(qtyEl.textContent, 10) || 1) + 1; }
-      else if (act === "qty-minus") { qtyEl.textContent = Math.max(1, (parseInt(qtyEl.textContent, 10) || 1) - 1); }
-      else if (act === "add") { addToCart(id, stemsEl.value, qtyEl.textContent); }
+      if (act === "stems-plus") {
+        var s1 = (parseInt(stemsEl.value, 10) || p.def) + 1;
+        stemsEl.value = s1;
+        updateCardPrice(card, p, s1);
+        syncCards();
+      }
+      else if (act === "stems-minus") {
+        var s2 = Math.max(1, (parseInt(stemsEl.value, 10) || p.def) - 1);
+        stemsEl.value = s2;
+        updateCardPrice(card, p, s2);
+        syncCards();
+      }
+      else if (act === "add") { addToCart(id, stemsEl.value, 1); }
+      else if (act === "cart-plus") {
+        var stP = cardState(card);
+        if (stP.qty > 0) setQty(stP.key, stP.qty + 1);
+        else addToCart(stP.id, stP.stems, 1);
+      }
+      else if (act === "cart-minus") {
+        var stM = cardState(card);
+        if (stM.qty > 0) setQty(stM.key, stM.qty - 1); // при 1 — позиция удаляется из корзины
+      }
       return;
     }
 

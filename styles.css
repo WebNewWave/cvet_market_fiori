@@ -69,32 +69,43 @@ img{display:block;max-width:100%}
 .card__price{font-size:.95rem;color:var(--muted)}
 .card__price b{font-family:var(--serif);font-size:1.25rem;color:var(--ink);font-weight:600}
 .card__unit{font-size:.8rem}
-.card__pp{font-size:.78rem;color:var(--muted);background:var(--cream);border:1px solid var(--line);border-radius:8px;padding:6px 10px;text-align:center}
-.card__controls{margin-top:auto;display:flex;flex-direction:column;gap:12px}
-.field{display:flex;align-items:center;justify-content:space-between;gap:10px}
-.field__label{font-size:.78rem;color:var(--muted);letter-spacing:.3px}
+/* цена слева, выбор числа цветов справа — одной строкой */
+.card__row{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:2px}
+.card__stems{margin:0}
+.card__stems .stepper__val{width:34px}
+/* блок покупки: кнопка «В корзину» превращается в компактный счётчик */
+.card__buy{margin-top:auto;padding-top:6px;position:relative}
+.card__count{display:none;align-items:center;justify-content:space-between;width:100%;border:1px solid var(--ink);border-radius:40px;overflow:hidden;padding:4px}
+.card__count__btn{width:38px;height:38px;border:none;background:transparent;cursor:pointer;font-size:1.25rem;color:var(--ink);transition:.2s;border-radius:50%}
+.card__count__btn:hover{background:var(--cream-2)}
+.js-cart-qty{min-width:30px;text-align:center;font-weight:600;font-size:.95rem}
+.card.is-incart .card__add{display:none}
+.card.is-incart .card__count{display:flex}
 .stepper,.qty{display:inline-flex;align-items:center;border:1px solid var(--line);border-radius:30px;overflow:hidden}
 .stepper button,.qty button{width:34px;height:34px;border:none;background:var(--cream);cursor:pointer;font-size:1.1rem;color:var(--ink);transition:.2s}
 .stepper button:hover,.qty button:hover{background:var(--gold);color:#fff}
 .stepper__val{width:42px;text-align:center;border:none;background:transparent;font-family:var(--sans);font-size:.95rem;font-weight:600}
 .qty__val{min-width:30px;text-align:center;font-weight:600}
-.card__add{margin-top:4px;padding:13px;border:1px solid var(--ink);background:var(--ink);color:var(--cream);border-radius:40px;font-weight:600;cursor:pointer;transition:.25s}
+.card__add{width:100%;padding:13px;border:1px solid var(--ink);background:var(--ink);color:var(--cream);border-radius:40px;font-weight:600;cursor:pointer;transition:.25s;font-family:var(--sans);font-size:.95rem}
 .card__add:hover{background:var(--gold);border-color:var(--gold)}
 
-/* ---------- story ---------- */
-.story{background:var(--ink);color:var(--cream);padding:90px 0}
-.story__quote{font-family:var(--serif);font-style:italic;font-size:clamp(1.5rem,3vw,2.3rem);line-height:1.35;max-width:840px;margin:0 auto 60px;text-align:center;color:#F6E7EA}
-.story__cols{display:grid;grid-template-columns:repeat(3,1fr);gap:36px}
-.story__col h3{font-family:var(--serif);font-weight:400;font-size:1.4rem;margin-bottom:10px;color:var(--gold)}
-.story__col p{color:#D9CFC0;font-size:.96rem}
-
-/* ---------- features ---------- */
-.features{padding:80px 0;background:var(--cream-2)}
-.features__grid{display:grid;grid-template-columns:repeat(3,1fr);gap:30px}
-.feature{text-align:center;padding:30px;background:var(--paper);border:1px solid var(--line);border-radius:10px}
-.feature__ico{font-size:2.2rem;display:block;margin-bottom:14px}
-.feature h3{font-family:var(--serif);font-weight:400;font-size:1.35rem;margin-bottom:8px}
-.feature p{color:var(--muted);font-size:.92rem}
+/* ---------- footer (компактный, без тёмного блока) ---------- */
+.site-footer{background:var(--cream-2);border-top:1px solid var(--line);padding:52px 0 24px}
+#story,#delivery{scroll-margin-top:90px}
+.footer__inner{display:flex;flex-direction:column;gap:0}
+.footer__quote{font-family:var(--serif);font-style:italic;font-size:clamp(1.25rem,2.4vw,1.9rem);line-height:1.4;max-width:760px;margin:0 auto 38px;text-align:center;color:var(--ink)}
+.footer__cols{display:grid;grid-template-columns:1.5fr 1fr;gap:40px 48px;align-items:start}
+.footer__list{display:grid;grid-template-columns:1fr 1fr;gap:22px 32px}
+.story__col h3{font-family:var(--serif);font-weight:400;font-size:1.15rem;margin-bottom:6px;color:var(--ink)}
+.story__col p{color:var(--muted);font-size:.9rem}
+.footer__h{font-size:.8rem;letter-spacing:2.5px;text-transform:uppercase;color:var(--gold);font-weight:500;margin:0 0 16px}
+.footer__contacts{display:flex;flex-direction:column;gap:9px;align-items:flex-start}
+.footer__contacts a{color:var(--ink);font-size:.95rem;transition:.2s}
+.footer__contacts a:hover{color:var(--gold)}
+.footer__addr{color:var(--muted);font-size:.85rem;margin:6px 0 0}
+.footer__bottom{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px 24px;margin-top:38px;padding-top:16px;border-top:1px solid var(--line)}
+.footer__copy{color:var(--muted);font-size:.8rem;margin:0}
+.footer__tagline{color:var(--muted);font-size:.8rem;letter-spacing:1.5px;text-transform:uppercase;margin:0}
 
 /* ---------- usps ---------- */
 .usps{padding:80px 0;background:var(--cream-2)}
@@ -106,19 +117,10 @@ img{display:block;max-width:100%}
 .usp h3{font-family:var(--serif);font-weight:400;font-size:1.18rem;margin-bottom:8px;line-height:1.25}
 .usp p{color:var(--muted);font-size:.9rem}
 
-/* ---------- footer ---------- */
-.site-footer{background:var(--cream);padding:60px 0 0;border-top:1px solid var(--line)}
-.footer__inner{display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:40px;padding-bottom:40px}
-.footer__brand p{color:var(--muted);margin-top:14px;max-width:260px}
-.logo--light{color:var(--ink)}
-.footer__contacts h4{font-family:var(--serif);font-weight:400;font-size:1.2rem;margin-bottom:16px}
-.footer__contacts a{display:block;color:var(--muted);margin-bottom:10px;font-size:.92rem;transition:.2s}
-.footer__contacts a:hover{color:var(--gold)}
-.footer__addr{display:block;color:var(--muted);margin-bottom:10px;font-size:.92rem}
-.footer__note p{color:var(--muted);font-size:.85rem}
-.footer__bottom{text-align:center;padding:22px;border-top:1px solid var(--line);color:var(--muted);font-size:.82rem}
+/* ---------- footer: мобильные (см. ниже) ---------- */
 
 /* ---------- cart ---------- */
+html.no-scroll,body.no-scroll{overflow:hidden}
 .cart{position:fixed;inset:0;z-index:60;visibility:hidden}
 .cart.is-open{visibility:visible}
 .cart__overlay{position:absolute;inset:0;background:rgba(42,32,36,.4);opacity:0;transition:.3s}
@@ -166,13 +168,14 @@ img{display:block;max-width:100%}
 @media(max-width:900px){
   .hero__inner{grid-template-columns:1fr;gap:36px}
   .hero__media img{height:380px}
-  .story__cols,.features__grid{grid-template-columns:1fr}
+  .footer__cols{grid-template-columns:1fr;gap:30px}
+  .footer__list{grid-template-columns:1fr 1fr}
   .usps__grid{grid-template-columns:repeat(2,1fr)}
-  .footer__inner{grid-template-columns:1fr}
   .nav{display:none}
 }
 @media(max-width:520px){
   .wrap{padding:0 18px}
+  .footer__list{grid-template-columns:1fr}
   .usps__grid{grid-template-columns:repeat(2,1fr)}
   .card__controls .field{flex-direction:column;align-items:flex-start}
 }
